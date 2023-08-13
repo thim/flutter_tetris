@@ -56,10 +56,17 @@ class _BoardPageState extends State<BoardPage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     var currentTileSize = (screenWidth ~/ 12).toDouble();
     if (currentTileSize > tileSize) {
       currentTileSize = tileSize;
     }
+
+    if ((screenHeight ~/ currentTileSize) < 15) {
+      currentTileSize = (screenHeight ~/ 20).toDouble();
+    }
+
     presenter.size = currentTileSize;
 
     return Scaffold(
@@ -118,10 +125,8 @@ class _BoardPageState extends State<BoardPage> {
                           )),
                     ),
                   )),
-
-
               ...presenter.listBlocks.map((e) => Positioned(
-                  top: e.top(currentTileSize) +10,
+                  top: e.top(currentTileSize) + 10,
                   left: e.left(currentTileSize),
                   child: Container(
                     decoration: BoxDecoration(
@@ -133,9 +138,8 @@ class _BoardPageState extends State<BoardPage> {
                     height: currentTileSize,
                     width: currentTileSize,
                   ))),
-
               ...presenter.currentBlock.points.map((e) => Positioned(
-                  top: e.top(currentTileSize) +10,
+                  top: e.top(currentTileSize) + 10,
                   left: e.left(currentTileSize),
                   child: Container(
                     decoration: BoxDecoration(
@@ -149,7 +153,6 @@ class _BoardPageState extends State<BoardPage> {
                     height: currentTileSize,
                     width: currentTileSize,
                   ))),
-
               Positioned(
                 left: currentTileSize * columnsLength + 10,
                 top: 10,
@@ -165,7 +168,6 @@ class _BoardPageState extends State<BoardPage> {
                       )),
                 ),
               ),
-
               Positioned(
                   left: currentTileSize * columnsLength + 20,
                   top: 15,
@@ -190,7 +192,6 @@ class _BoardPageState extends State<BoardPage> {
                     height: currentTileSize / 2,
                     width: currentTileSize / 2,
                   ))),
-
               Positioned(
                 left: currentTileSize * columnsLength + 10,
                 top: 120,
@@ -223,7 +224,7 @@ class _BoardPageState extends State<BoardPage> {
                 ),
               Positioned(
                 top: 250,
-                right: 45,
+                left: currentTileSize * columnsLength + 20,
                 child: FloatingActionButton(
                   onPressed: () {
                     presenter.pause();
@@ -234,7 +235,7 @@ class _BoardPageState extends State<BoardPage> {
               ),
               Positioned(
                 top: 350,
-                right: 45,
+                left: currentTileSize * columnsLength + 20,
                 child: FloatingActionButton(
                   onPressed: () {
                     gameStart();
@@ -278,7 +279,7 @@ class _BoardPageState extends State<BoardPage> {
               ),
               Positioned(
                 bottom: 50,
-                right: 40,
+                left: currentTileSize * columnsLength + 20,
                 child: FloatingActionButton(
                   onPressed: () {
                     presenter.rotate();
